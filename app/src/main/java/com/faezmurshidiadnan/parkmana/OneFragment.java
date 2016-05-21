@@ -7,13 +7,23 @@ package com.faezmurshidiadnan.parkmana;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class OneFragment extends Fragment{
+
+    private RecyclerView rv;
+    View myview;
+    private List<Info> info;
+    private List<Person> persons;
+
 
     public OneFragment() {
         // Required empty public constructor
@@ -28,7 +38,35 @@ public class OneFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_one, container, false);
+        // Inflate the layout for this fragment
+        myview = inflater.inflate(R.layout.recyclerview_activity, container, false);
+
+        loadPref();
+
+        return myview;
     }
 
-}
+    private void loadPref() {
+        rv=(RecyclerView)myview.findViewById(R.id.rv);
+
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(llm);
+        rv.setHasFixedSize(true);
+
+        initializeData();
+        initializeAdapter();
+
+    }
+
+    private void initializeData(){
+        persons = new ArrayList<>();
+        persons.add(new Person("Emma Wilson", "23 years old", R.drawable.emma, "120"));
+        persons.add(new Person("Lavery Maiss", "25 years old", R.drawable.emma, "130"));
+        persons.add(new Person("Lillie Watts", "35 years old", R.drawable.emma,"132"));
+    }
+
+    private void initializeAdapter(){
+        AVAdapter adapter = new AVAdapter(persons);
+        rv.setAdapter(adapter);
+
+}}

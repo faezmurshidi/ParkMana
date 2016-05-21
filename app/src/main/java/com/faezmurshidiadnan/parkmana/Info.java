@@ -8,7 +8,8 @@ class Info {
 
     String name;
     String lot;
-    String lon,lat;
+    String lon;
+    String lat;
 
 
 
@@ -20,5 +21,7 @@ class Info {
 
 
     }
+
+
 }
 

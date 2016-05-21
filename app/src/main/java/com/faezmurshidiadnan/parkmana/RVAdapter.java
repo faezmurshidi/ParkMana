@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.InfoViewHolder> {
@@ -20,16 +21,18 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.InfoViewHolder> {
         TextView Name;
         TextView distance;
         TextView Lots;
-        Boolean fav;
+
+        ImageView fav;
 
 
 
         InfoViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
-            Name = (TextView)itemView.findViewById(R.id.name);
+            Name = (TextView)itemView.findViewById(R.id.person_name);
             distance = (TextView)itemView.findViewById(R.id.distance);
             Lots =  (TextView)itemView.findViewById(R.id.lots);
+            //fav = (ImageView)itemView.findViewById(R.id.fav);
 
         }
     }
@@ -47,7 +50,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.InfoViewHolder> {
 
     @Override
     public InfoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.newqwe, viewGroup, false);
         InfoViewHolder pvh = new InfoViewHolder(v);
         return pvh;
     }
@@ -55,8 +58,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.InfoViewHolder> {
     @Override
     public void onBindViewHolder(InfoViewHolder infoViewHolder, int i) {
         infoViewHolder.Name.setText(info.get(i).name);
-        infoViewHolder.distance.setText("2.3km");
+        infoViewHolder.distance.setText(info.get(i).lon+","+info.get(i).lat);
         infoViewHolder.Lots.setText(info.get(i).lot);
+        //infoViewHolder.fav.setImageDrawable();
 
     }
 

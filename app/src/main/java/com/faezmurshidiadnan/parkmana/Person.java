@@ -6,11 +6,14 @@ package com.faezmurshidiadnan.parkmana;
 class Person {
     String name;
     String age;
+    int photoId;
+    String lots;
 
-
-    Person(String name, String age) {
+    Person(String name, String age, int photoId, String lots) {
         this.name = name;
         this.age = age;
-
+        this.photoId = photoId;
+        this.lots = lots;
     }
 }
+

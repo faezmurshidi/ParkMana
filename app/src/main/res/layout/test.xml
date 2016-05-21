@@ -16,10 +16,12 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/abc_search_url_text_selected"
+        android:background="@android:color/transparent"
         android:layout_margin="8dp"
         android:padding="6dp"
-        android:id="@+id/info">
+        android:id="@+id/info"
+        android:elevation="6dp"
+        android:backgroundTint="@android:color/black">
 
         <LinearLayout
             android:orientation="horizontal"

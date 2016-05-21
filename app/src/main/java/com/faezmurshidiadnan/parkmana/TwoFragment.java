@@ -7,7 +7,6 @@ package com.faezmurshidiadnan.parkmana;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,10 +60,11 @@ public class TwoFragment extends Fragment{
     }
 
     private void initializeData(){
-        persons = new ArrayList<>();
-        persons.add(new Person("Emma Wilson", "23 years old"));
-        persons.add(new Person("Lavery Maiss", "25 years old"));
-        persons.add(new Person("Lillie Watts", "35 years old"));
+        info = new ArrayList<>();
+        info.add(new Info("Marina", "12","34","110"));
+        info.add(new Info("Marina", "12","34","110"));
+        info.add(new Info("bay","34","22","3.4"));
+
     }
 
     private void initializeAdapter(){

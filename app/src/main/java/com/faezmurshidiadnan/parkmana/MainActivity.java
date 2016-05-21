@@ -16,10 +16,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.webkit.WebView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private NetworkReceiver receiver = new NetworkReceiver();
 
     private List<Info> info;
+    private List<Person> person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
+
         }
     }
 
@@ -271,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         String name ;
         String lot ;
         String lon;
-        String lat ;
+        String lat,loc ;
 
 
         try {
@@ -285,9 +290,10 @@ public class MainActivity extends AppCompatActivity {
             lot = parts[1];
             lon = parts[2];
             lat = parts[3];
+            loc = parts[2]+parts[3];
 
-            info = new ArrayList<>();
-            info.add(new Info(name,lot,lon,lat));
+                    person = new ArrayList<>();
+            person.add(new Person(name,loc,1,lot));
 
 
 
@@ -299,11 +305,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        
 
 
 
-        return employees.toString();
+
+        return "ok";
     }
 
     // Given a string representation of a URL, sets up a connection and gets
