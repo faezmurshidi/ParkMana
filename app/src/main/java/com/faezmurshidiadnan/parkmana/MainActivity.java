@@ -94,15 +94,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[2]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[3]);
+        tabLayout.getTabAt(0).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[0]);
 
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new OneFragment(), "Favourites");
-        adapter.addFrag(new TwoFragment(), "Parkings");
+        adapter.addFrag(new OneFragment(), "Parkings");
+        adapter.addFrag(new TwoFragment(), "Favourites");
 
         viewPager.setAdapter(adapter);
     }

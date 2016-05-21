@@ -10,3 +10,5 @@ What it do?
 - populate cardview with data
 - fav button saves as fav.
 - Onclick goes to maps view.
+- get distance between current location and car park
+- animation thingyy..
