@@ -22,12 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.webkit.WebView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.faezmurshidiadnan.parkmana.R;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -242,22 +237,60 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Implementation of AsyncTask used to download XML feed from stackoverflow.com.
-    private class DownloadXmlTask extends AsyncTask<String, Void, String> {
+    private class DownloadXmlTask extends AsyncTask<String, Void, List<Employee>> {
 
 
         @Override
-        protected String doInBackground(String... urls) {
+        protected List<Employee> doInBackground(String... urls) {
             try {
                 return loadXmlFromNetwork(urls[0]);
             } catch (IOException e) {
-                return getResources().getString(R.string.connection_error);
+                //return getResources().getString(R.string.connection_error);
+                Toast.makeText(MainActivity.this, R.string.connection_error, Toast.LENGTH_SHORT).show();
             } catch (XmlPullParserException e) {
-                return getResources().getString(R.string.xml_error);
+                //return getResources().getString(R.string.xml_error);
+                Toast.makeText(MainActivity.this, R.string.xml_error, Toast.LENGTH_SHORT).show();
             }
+
+            return null;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(List<Employee> result) {
+
+            String size = String.valueOf(result.size());
+            Toast.makeText(MainActivity.this, size, Toast.LENGTH_SHORT).show();
+            //setContentView(R.layout.recyclerview_activity);
+
+
+            String[] parts;
+            String name ;
+            String lot ;
+            String lon;
+            String lat,loc ;
+
+            String aa;
+            RecyclerView rv=(RecyclerView)findViewById(R.id.rv);
+
+            LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
+            rv.setLayoutManager(llm);
+            //rv.setHasFixedSize(true);
+
+            aa = result.get(1).toString();
+
+            parts = aa.split(",");
+            name = parts[0];
+            lot = parts[1];
+            lon = parts[2];
+            lat = parts[3];
+            loc = parts[2]+parts[3];
+
+            person = new ArrayList<>();
+            person.add(new Person(name,loc,1,lot));
+
+
+            AVAdapter adapter = new AVAdapter(person);
+            rv.setAdapter(adapter);
 
 
         }
@@ -266,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Uploads XML from stackoverflow.com, parses it, and combines it with
     // HTML markup. Returns HTML string.
-    private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
+    private List<Employee> loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
         InputStream stream = null;
         XmlPullParserHandler parser = new XmlPullParserHandler();
         List<Employee> employees = null;
@@ -283,20 +316,6 @@ public class MainActivity extends AppCompatActivity {
             stream = downloadUrl(urlString);
             employees = parser.parse(stream);
 
-            sp = employees.toString();
-
-            parts = sp.split(",");
-            name = parts[0];
-            lot = parts[1];
-            lon = parts[2];
-            lat = parts[3];
-            loc = parts[2]+parts[3];
-
-                    person = new ArrayList<>();
-            person.add(new Person(name,loc,1,lot));
-
-
-
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
         } finally {
@@ -309,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        return "ok";
+        return employees;
     }
 
     // Given a string representation of a URL, sets up a connection and gets

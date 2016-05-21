@@ -60,9 +60,9 @@ public class OneFragment extends Fragment{
 
     private void initializeData(){
         persons = new ArrayList<>();
-        persons.add(new Person("Emma Wilson", "23 years old", R.drawable.emma, "120"));
-        persons.add(new Person("Lavery Maiss", "25 years old", R.drawable.emma, "130"));
-        persons.add(new Person("Lillie Watts", "35 years old", R.drawable.emma,"132"));
+        persons.add(new Person("The Esplenade", "1.3km", R.drawable.emma, "120"));
+        persons.add(new Person("Millenia Singapore", "25 years old", R.drawable.emma, "130"));
+        persons.add(new Person("Singapore Flyer", "35 years old", R.drawable.emma,"132"));
     }
 
     private void initializeAdapter(){
