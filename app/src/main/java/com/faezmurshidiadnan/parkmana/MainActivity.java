@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private NetworkReceiver receiver = new NetworkReceiver();
 
     private List<Info> info;
-    private List<Person> person;
+    public List<Person> person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,6 +275,24 @@ public class MainActivity extends AppCompatActivity {
             LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
             rv.setLayoutManager(llm);
             //rv.setHasFixedSize(true);
+
+            //save to Arraylist
+           /* int i;
+            for(i=0;i<result.size();i++){
+                aa = result.get(1).toString();
+
+                parts = aa.split(",");
+                name = parts[0];
+                lot = parts[1];
+                lon = parts[2];
+                lat = parts[3];
+                loc = parts[2]+parts[3];
+
+                person = new ArrayList<>();
+                person.add(new Person(name,loc,1,lot));
+            }
+*/
+
 
             aa = result.get(1).toString();
 
