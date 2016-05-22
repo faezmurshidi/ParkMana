@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -65,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
     private NetworkReceiver receiver = new NetworkReceiver();
 
     private List<Info> info;
-    public List<Person> person;
+    public static List<Data> data;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new OneFragment(), "Parkings");
         adapter.addFrag(new TwoFragment(), "Favourites");
+       // adapter.notifyDataSetChanged();
 
         viewPager.setAdapter(adapter);
     }
@@ -225,8 +228,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.settings:
-                Intent settingsActivity = new Intent(getBaseContext(), SettingsActivity.class);
-                startActivity(settingsActivity);
+                /*Intent settingsActivity = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(settingsActivity);*/
                 return true;
             case R.id.refresh:
                 loadPage();
@@ -237,11 +240,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Implementation of AsyncTask used to download XML feed from stackoverflow.com.
-    private class DownloadXmlTask extends AsyncTask<String, Void, List<Employee>> {
+    private class DownloadXmlTask extends AsyncTask<String, Void, List<Content>> {
 
 
         @Override
-        protected List<Employee> doInBackground(String... urls) {
+        protected List<Content> doInBackground(String... urls) {
             try {
                 return loadXmlFromNetwork(urls[0]);
             } catch (IOException e) {
@@ -256,10 +259,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<Employee> result) {
+        protected void onPostExecute(List<Content> result) {
 
             String size = String.valueOf(result.size());
-            Toast.makeText(MainActivity.this, size, Toast.LENGTH_SHORT).show();
+            String whut = result.get(5).toString();
+            Toast.makeText(MainActivity.this, "updated", Toast.LENGTH_SHORT).show();
             //setContentView(R.layout.recyclerview_activity);
 
 
@@ -268,32 +272,31 @@ public class MainActivity extends AppCompatActivity {
             String lot ;
             String lon;
             String lat,loc ;
-
+            data = new ArrayList<>();
             String aa;
-            RecyclerView rv=(RecyclerView)findViewById(R.id.rv);
+           /* RecyclerView rv=(RecyclerView)findViewById(R.id.rv);
 
             LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
             rv.setLayoutManager(llm);
-            //rv.setHasFixedSize(true);
+            //rv.setHasFixedSize(true);*/
 
             //save to Arraylist
-           /* int i;
+            int i;
             for(i=0;i<result.size();i++){
-                aa = result.get(1).toString();
+                aa = result.get(i).toString();
 
                 parts = aa.split(",");
                 name = parts[0];
                 lot = parts[1];
                 lon = parts[2];
                 lat = parts[3];
-                loc = parts[2]+parts[3];
+                loc = parts[2]+"|"+parts[3];
 
-                person = new ArrayList<>();
-                person.add(new Person(name,loc,1,lot));
+
+                data.add(new Data(name,loc,1,lot));
             }
-*/
 
-
+/*
             aa = result.get(1).toString();
 
             parts = aa.split(",");
@@ -303,12 +306,12 @@ public class MainActivity extends AppCompatActivity {
             lat = parts[3];
             loc = parts[2]+parts[3];
 
-            person = new ArrayList<>();
-            person.add(new Person(name,loc,1,lot));
+            data = new ArrayList<>();
+            data.add(new Data(name,loc,1,lot));
 
 
-            AVAdapter adapter = new AVAdapter(person);
-            rv.setAdapter(adapter);
+            AVAdapter adapter = new AVAdapter(data);
+            rv.setAdapter(adapter);*/
 
 
         }
@@ -317,10 +320,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Uploads XML from stackoverflow.com, parses it, and combines it with
     // HTML markup. Returns HTML string.
-    private List<Employee> loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
+    private List<Content> loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
         InputStream stream = null;
         XmlPullParserHandler parser = new XmlPullParserHandler();
-        List<Employee> employees = null;
+        List<Content> contents = null;
         String sp ;
 
         String[] parts;
@@ -332,7 +335,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             stream = downloadUrl(urlString);
-            employees = parser.parse(stream);
+            contents = parser.parse(stream);
 
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
@@ -346,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        return employees;
+        return contents;
     }
 
     // Given a string representation of a URL, sets up a connection and gets

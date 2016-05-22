@@ -3,7 +3,7 @@ package com.faezmurshidiadnan.parkmana;
 /**
  * Created by User on 20/05/16.
  */
-public class Employee {
+public class Content {
     private String place;
     private String name;
     private String Lots;

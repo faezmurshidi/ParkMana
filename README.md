@@ -7,8 +7,11 @@ What it do?
 - XML Parsing.[done]
 - Pager adapter with two tabs -fav and parkings. [done]
 - Parkings display info in cardview -Name, distance, park lots availability.[done]
-- populate cardview with data
+- populate cardview with data[done]
 - fav button saves as fav.
 - Onclick goes to maps view.
 - get distance between current location and car park
 - animation thingyy..
+
+[ISSUES]
+- 

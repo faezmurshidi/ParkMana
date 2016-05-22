@@ -15,15 +15,15 @@ import java.util.List;
 
 
 public class XmlPullParserHandler {
-    private List<Employee> employees= new ArrayList<Employee>();
-    private Employee employee;
+    private List<Content> contents = new ArrayList<Content>();
+    private Content content;
     private String text;
 
-    public List<Employee> getEmployees() {
-        return employees;
+    public List<Content> getContents() {
+        return contents;
     }
 
-    public List<Employee> parse(InputStream is) {
+    public List<Content> parse(InputStream is) {
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(true);
@@ -37,8 +37,8 @@ public class XmlPullParserHandler {
                 switch (eventType) {
                     case XmlPullParser.START_TAG:
                         if (tagname.equalsIgnoreCase("entry")) {
-                            // create a new instance of employee
-                            employee = new Employee();
+                            // create a new instance of content
+                            content = new Content();
                         }
                         break;
 
@@ -48,16 +48,16 @@ public class XmlPullParserHandler {
 
                     case XmlPullParser.END_TAG:
                         if (tagname.equalsIgnoreCase("entry")) {
-                            // add employee object to list
-                            employees.add(employee);
+                            // add content object to list
+                            contents.add(content);
                         }else if (tagname.equalsIgnoreCase("development")) {
-                            employee.setPlace(text);
+                            content.setPlace(text);
                         }  else if (tagname.equalsIgnoreCase("Latitude")) {
-                            employee.setLat(text);
+                            content.setLat(text);
                         }else if (tagname.equalsIgnoreCase("longitude")) {
-                            employee.setLong(text);
+                            content.setLong(text);
                         } else if (tagname.equalsIgnoreCase("Lots")) {
-                            employee.setLot(text);
+                            content.setLot(text);
                         }
                         break;
 
@@ -70,6 +70,6 @@ public class XmlPullParserHandler {
         } catch (XmlPullParserException e) {e.printStackTrace();}
         catch (IOException e) {e.printStackTrace();}
 
-        return employees;
+        return contents;
     }
 }

@@ -22,7 +22,7 @@ public class TwoFragment extends Fragment{
     private RecyclerView rv;
     View myview;
     private List<Info> info;
-    private List<Person> persons;
+    private List<Data> datas;
 
     public TwoFragment() {
         // Required empty public constructor
@@ -39,9 +39,10 @@ public class TwoFragment extends Fragment{
 
 
         // Inflate the layout for this fragment
-        myview = inflater.inflate(R.layout.recyclerview_activity, container, false);
+        myview = inflater.inflate(R.layout.fragment_two, container, false);
 
-        loadPref();
+        //loadPref();
+
 
         return myview;
 

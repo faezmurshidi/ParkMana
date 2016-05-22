@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class OneFragment extends Fragment{
     private RecyclerView rv;
     View myview;
     private List<Info> info;
-    private List<Person> persons;
+    public  List<Data> datas;
 
 
     public OneFragment() {
@@ -32,6 +33,8 @@ public class OneFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
@@ -53,20 +56,32 @@ public class OneFragment extends Fragment{
         rv.setLayoutManager(llm);
         rv.setHasFixedSize(true);
 
+
+
         initializeData();
         initializeAdapter();
 
     }
 
     private void initializeData(){
-        persons = new ArrayList<>();
-        persons.add(new Person("The Esplenade", "1.3km", R.drawable.emma, "120"));
-        persons.add(new Person("Millenia Singapore", "25 years old", R.drawable.emma, "130"));
-        persons.add(new Person("Singapore Flyer", "35 years old", R.drawable.emma,"132"));
+
+
+
+        datas = new ArrayList<>();
+        datas = MainActivity.data;
+
+        datas.add(new Data("The Esplenade", "1.3km", R.drawable.emma, "120"));
+        datas.add(new Data("Millenia Singapore", "1.4 km", R.drawable.emma, "130"));
+        datas.add(new Data("Singapore Flyer", "3.2 km", R.drawable.emma,"132"));
+
+
+
+
+
     }
 
     private void initializeAdapter(){
-        AVAdapter adapter = new AVAdapter(persons);
+        AVAdapter adapter = new AVAdapter(datas);
         rv.setAdapter(adapter);
 
 }}

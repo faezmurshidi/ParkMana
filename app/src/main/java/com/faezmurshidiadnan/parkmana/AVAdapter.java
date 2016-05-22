@@ -18,6 +18,7 @@ public class AVAdapter extends RecyclerView.Adapter<AVAdapter.PersonViewHolder> 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv;
+        public View view;
         TextView personName;
         TextView personAge,lots;
         ImageView personPhoto;
@@ -29,13 +30,15 @@ public class AVAdapter extends RecyclerView.Adapter<AVAdapter.PersonViewHolder> 
             personAge = (TextView)itemView.findViewById(R.id.person_age);
             lots = (TextView)itemView.findViewById(R.id.lots);
             //personPhoto = (ImageView)itemView.findViewById(R.id.person_photo);
+
+
         }
     }
 
-    List<Person> persons;
+    List<Data> datas;
 
-    AVAdapter(List<Person> persons){
-        this.persons = persons;
+    AVAdapter(List<Data> datas){
+        this.datas = datas;
     }
 
     @Override
@@ -45,22 +48,27 @@ public class AVAdapter extends RecyclerView.Adapter<AVAdapter.PersonViewHolder> 
 
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.newqwe, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_one, viewGroup, false);
         PersonViewHolder pvh = new PersonViewHolder(v);
         return pvh;
     }
 
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
-        personViewHolder.personName.setText(persons.get(i).name);
-        personViewHolder.personAge.setText(persons.get(i).age);
-        personViewHolder.lots.setText(persons.get(i).lots);
-        //personViewHolder.personPhoto.setImageResource(persons.get(i).photoId);
+        personViewHolder.personName.setText(datas.get(i).name);
+        personViewHolder.personAge.setText(datas.get(i).age);
+        personViewHolder.lots.setText(datas.get(i).lots);
+        //personViewHolder.personPhoto.setImageResource(datas.get(i).photoId);
+
+
+
+
+
     }
 
     @Override
     public int getItemCount() {
-        return persons.size();
+        return datas.size();
     }
 }
 
