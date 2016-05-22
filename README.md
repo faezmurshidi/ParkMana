@@ -14,4 +14,4 @@ What it do?
 - animation thingyy..
 
 [ISSUES]
-- 
+- data can be refresh, but fragment cant. 
