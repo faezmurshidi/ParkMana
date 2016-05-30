@@ -9,9 +9,9 @@ What it do?
 - Parkings display info in cardview -Name, distance, park lots availability.[done]
 - populate cardview with data[done]
 - fav button saves as fav.
-- Onclick goes to maps view.
-- get distance between current location and car park
+- Onclick goes to maps view. [done]
+- get distance between current location and car park [done]
 - animation thingyy..
 
 [ISSUES]
-- data can be refresh, but fragment cant. 
+- data can be refresh, but fragment cant. Need to reopen the app to refresh data.

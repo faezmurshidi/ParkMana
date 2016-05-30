@@ -5,14 +5,16 @@ package com.faezmurshidiadnan.parkmana;
  */
 class Data {
     String name;
-    String age;
-    int photoId;
+    String lat;
+    String lon;
+    String distance;
     String lots;
 
-    Data(String name, String age, int photoId, String lots) {
+    Data(String name, String lat, String lon,String distance, String lots) {
         this.name = name;
-        this.age = age;
-        this.photoId = photoId;
+        this.lat = lat;
+        this.lon = lon;
+        this.distance = distance;
         this.lots = lots;
     }
 }

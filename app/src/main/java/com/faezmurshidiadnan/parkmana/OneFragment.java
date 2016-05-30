@@ -5,6 +5,7 @@ package com.faezmurshidiadnan.parkmana;
  */
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,10 +32,26 @@ public class OneFragment extends Fragment{
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //datas = MainActivity.data;
+        loadPref();
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadPref();
     }
 
     @Override
@@ -68,11 +85,22 @@ public class OneFragment extends Fragment{
 
 
         datas = new ArrayList<>();
-        datas = MainActivity.data;
+       // datas = MainActivity.data;
 
-        datas.add(new Data("The Esplenade", "1.3km", R.drawable.emma, "120"));
-        datas.add(new Data("Millenia Singapore", "1.4 km", R.drawable.emma, "130"));
-        datas.add(new Data("Singapore Flyer", "3.2 km", R.drawable.emma,"132"));
+
+        //Data(String name, String lat, String lon,String distance, String lots)
+
+
+
+        if(MainActivity.data!=null){
+            datas.addAll(MainActivity.data);
+        }
+
+
+
+        datas.add(new Data("The Esplenade", "1.3","1.4", "34km", "120"));
+        datas.add(new Data("Millenia Singapore", "1.3","1.4", "34km", "130"));
+        datas.add(new Data("Singapore Flyer", "1.3","1.4", "34km","132"));
 
 
 
@@ -82,6 +110,15 @@ public class OneFragment extends Fragment{
 
     private void initializeAdapter(){
         AVAdapter adapter = new AVAdapter(datas);
+        adapter.notifyDataSetChanged();
         rv.setAdapter(adapter);
 
-}}
+}
+
+    public void refreshData(List<Data> data) {
+        datas = new ArrayList<>(data);
+        AVAdapter adapter = new AVAdapter(datas);
+        adapter.notifyDataSetChanged();
+        rv.setAdapter(adapter);
+    }
+}

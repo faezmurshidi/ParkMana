@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
     public static List<Data> data;
 
 
+    GPSTracker gps;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +85,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        viewPager.setOffscreenPageLimit(1);
+
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        setupTabIcons();
+       setupTabIcons();
 
 
         // Register BroadcastReceiver to track connection changes.
@@ -93,11 +102,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
     }
+
+
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[1]);
         tabLayout.getTabAt(1).setIcon(tabIcons[0]);
+
 
     }
 
@@ -105,10 +119,12 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new OneFragment(), "Parkings");
         adapter.addFrag(new TwoFragment(), "Favourites");
-       // adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
 
         viewPager.setAdapter(adapter);
     }
+
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -119,7 +135,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+
+
+        @Override
         public Fragment getItem(int position) {
+
+            switch (position){
+                case 0:
+                    tabLayout.getTabAt(1).setIcon(tabIcons[2]);
+                    break;
+                case 1:
+                    tabLayout.getTabAt(0).setIcon(tabIcons[3]);
+                    break;
+            }
+
+
             return mFragmentList.get(position);
         }
 
@@ -137,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
+
     }
 
     //network thingyy
@@ -292,10 +328,18 @@ public class MainActivity extends AppCompatActivity {
                 lat = parts[3];
                 loc = parts[2]+"|"+parts[3];
 
+                //Data(String name, String lat, String lon,String distance, String lots)
 
-                data.add(new Data(name,loc,1,lot));
+                String dist = getDistance(lon,lat);
+                data.add(new Data(name,lat,lon,dist,lot));
             }
 
+
+            OneFragment resultFrag = (OneFragment) getSupportFragmentManager()
+                    .findFragmentByTag("FragToRefresh");
+            if (resultFrag != null) {
+                resultFrag.refreshData(data);
+            }
 /*
             aa = result.get(1).toString();
 
@@ -314,6 +358,53 @@ public class MainActivity extends AppCompatActivity {
             rv.setAdapter(adapter);*/
 
 
+        }
+
+        private String getDistance(String lon,String lat) {
+
+            Double distance = 0.0;
+
+            // create class object
+            gps = new GPSTracker(MainActivity.this);
+
+            // check if GPS enabled
+            if(gps.canGetLocation()){
+
+                double latitude = gps.getLatitude();
+                double longitude = gps.getLongitude();
+
+                double dlot = Double.valueOf(lon);
+                double dlat = Double.valueOf(lat);
+
+                Location locationA = new Location("point A");
+
+                locationA.setLatitude(dlat);
+                locationA.setLongitude(dlot);
+
+                Location locationB = new Location("point B");
+
+                locationB.setLatitude(latitude);
+                locationB.setLongitude(longitude);
+
+                distance = locationA.distanceTo(locationB)/1000.0;
+
+                DecimalFormat df = new DecimalFormat("#.##");
+                distance = Double.valueOf(df.format(distance));
+
+                // \n is for new line
+               // Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+            }else{
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                gps.showSettingsAlert();
+            }
+
+
+
+
+
+            return String.valueOf(distance)+ " Km";
         }
     }
 
